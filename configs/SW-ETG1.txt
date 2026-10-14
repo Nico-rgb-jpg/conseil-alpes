@@ -1,0 +1,111 @@
+! ===============================================================
+! SW-ETG1 - Switch d'acces, 1er etage (Cisco 2960-24TT)
+! Fa0/1-4    : VLAN 10 Direction        (PC-DIR1 sur Fa0/1)
+! Fa0/5-14   : VLAN 20 Comptabilite     (PC-COMPTA1 sur Fa0/5, PC-COMPTA2 sur Fa0/6)
+! Fa0/15-24  : non utilises
+! G0/1       : trunk vers SW-CORE G0/1
+! G0/2       : non utilise
+! ===============================================================
+enable
+configure terminal
+
+hostname SW-ETG1
+no ip domain-lookup
+service password-encryption
+enable secret Alpes@2026
+banner motd # Acces reserve au personnel autorise d'Alpes Conseil #
+username admin privilege 15 secret Admin@2026
+ip domain-name alpes.local
+
+vtp mode transparent
+vlan 10
+ name DIRECTION
+vlan 20
+ name COMPTABILITE
+vlan 99
+ name GESTION
+vlan 999
+ name INUTILISES
+ exit
+
+! --- Uplink ---
+interface GigabitEthernet0/1
+ description Trunk vers SW-CORE G0/1
+ switchport mode trunk
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,99,999
+ switchport nonegotiate
+ no shutdown
+ exit
+
+! --- Ports utilisateurs ---
+interface range FastEthernet0/1 - 4
+ description Postes Direction
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ no shutdown
+ exit
+
+interface range FastEthernet0/5 - 14
+ description Postes Comptabilite
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ no shutdown
+ exit
+
+! --- Ports non utilises ---
+interface range FastEthernet0/15 - 24
+ description Non utilise
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+ exit
+
+interface GigabitEthernet0/2
+ description Non utilise
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+ exit
+
+! --- Gestion a distance ---
+interface Vlan1
+ shutdown
+ exit
+interface Vlan99
+ description Gestion
+ ip address 192.168.99.3 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.99.1
+
+access-list 10 permit 192.168.30.0 0.0.0.255
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+
+line console 0
+ login local
+ exec-timeout 10 0
+ logging synchronous
+ exit
+line vty 0 15
+ login local
+ transport input ssh
+ access-class 10 in
+ exec-timeout 10 0
+ exit
+
+end
+write memory
