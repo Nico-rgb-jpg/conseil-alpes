@@ -3,6 +3,8 @@
 Conception et configuration du réseau d'une PME fictive, **Alpes Conseil** (quatre services répartis sur deux étages),
 avec Cisco Packet Tracer.
 
+> **Note :** je republie ce projet dans une nouvelle version. Les fichiers d'origine ont été perdus ou étaient devenus obsolètes, je l'ai donc repris et mis à jour.
+
 Objectifs du projet :
 - séparer les services avec des **VLAN** et les faire communiquer avec un **routage inter-VLAN** ;
 - distribuer les adresses avec un **serveur DHCP** central et résoudre les noms avec un **DNS** interne ;
