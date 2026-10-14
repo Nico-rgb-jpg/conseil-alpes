@@ -46,6 +46,9 @@ Il vaut mieux coller par blocs (une section à la fois) pour repérer facilement
 
 Après la configuration, la console demande un identifiant : `admin` / `Admin@2026`.
 
+Si une version de Packet Tracer refuse `crypto key generate rsa general-keys modulus 1024`,
+taper seulement `crypto key generate rsa` et répondre `1024` à la question sur la taille de la clé.
+
 ## 4. Vérifier
 
 Suivre le plan de tests : `docs/tests.md`.
