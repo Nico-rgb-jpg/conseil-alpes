@@ -22,7 +22,7 @@ Renommer chaque équipement (onglet **Config > Display Name**) pour que le sché
 |---|---|---|---|---|
 | R1 | G0/0 | SW-CORE | Fa0/24 | droit |
 | R1 | G0/1 | R-ISP | G0/0 | croisé |
-| R-ISP | G0/1 | WEB-EXT | Fa0 | droit |
+| R-ISP | G0/1 | WEB-EXT | Fa0 | croisé (routeur ↔ serveur) |
 | SW-CORE | G0/1 | SW-ETG1 | G0/1 | croisé |
 | SW-CORE | G0/2 | SW-ETG2 | G0/1 | croisé |
 | SW-CORE | Fa0/1 | SRV-01 | Fa0 | droit |
