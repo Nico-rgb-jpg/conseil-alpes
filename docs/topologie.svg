@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" width="1000" height="760" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="1000" height="760" fill="#ffffff"/>
+
+  <!-- Zones -->
+  <rect x="20" y="14" width="960" height="188" rx="14" fill="#f4f6f9" stroke="#c9d0da" stroke-dasharray="6 5"/>
+  <text x="38" y="40" font-size="13" font-weight="700" fill="#5b6575">INTERNET (simulé)</text>
+  <rect x="20" y="214" width="960" height="470" rx="14" fill="#fbfcfd" stroke="#c9d0da" stroke-dasharray="6 5"/>
+  <text x="38" y="240" font-size="13" font-weight="700" fill="#5b6575">RÉSEAU ALPES CONSEIL</text>
+
+  <!-- Liens -->
+  <g stroke="#3b4452" stroke-width="2" fill="none">
+    <line x1="500" y1="78" x2="500" y2="132"/>
+    <line x1="500" y1="188" x2="500" y2="252"/>
+    <line x1="500" y1="308" x2="500" y2="372"/>
+    <line x1="575" y1="400" x2="725" y2="400"/>
+    <line x1="460" y1="428" x2="270" y2="502"/>
+    <line x1="540" y1="428" x2="730" y2="502"/>
+    <line x1="230" y1="558" x2="120" y2="612"/>
+    <line x1="250" y1="558" x2="250" y2="612"/>
+    <line x1="270" y1="558" x2="380" y2="612"/>
+    <line x1="730" y1="558" x2="620" y2="612"/>
+    <line x1="750" y1="558" x2="750" y2="612"/>
+    <line x1="770" y1="558" x2="880" y2="612"/>
+  </g>
+  <!-- Trunks en plus épais -->
+  <g stroke="#3b4452" stroke-width="5" stroke-opacity=".25" fill="none">
+    <line x1="500" y1="308" x2="500" y2="372"/>
+    <line x1="460" y1="428" x2="270" y2="502"/>
+    <line x1="540" y1="428" x2="730" y2="502"/>
+  </g>
+
+  <!-- Libellés de liens -->
+  <g font-size="11" fill="#3b4452">
+    <text x="510" y="98">G0/1</text>
+    <text x="510" y="126">Fa0</text>
+    <text x="588" y="108" font-weight="700" fill="#5b6575">198.51.100.0/24</text>
+
+    <text x="510" y="206">G0/0  .1</text>
+    <text x="510" y="248">G0/1  .2</text>
+    <text x="588" y="230" font-weight="700" fill="#5b6575">WAN 203.0.113.0/30</text>
+
+    <text x="510" y="326">G0/0</text>
+    <text x="510" y="366">Fa0/24</text>
+    <text x="588" y="346" font-weight="700" fill="#5b6575">Trunk 802.1Q (VLAN 10-50, 99)</text>
+
+    <text x="585" y="392">Fa0/1</text>
+    <text x="690" y="392">Fa0</text>
+
+    <text x="372" y="452">G0/1</text>
+    <text x="250" y="496">G0/1</text>
+    <text x="596" y="452">G0/2</text>
+    <text x="722" y="496">G0/1</text>
+    <text x="300" y="474" font-weight="700" fill="#5b6575">trunk</text>
+    <text x="664" y="474" font-weight="700" fill="#5b6575">trunk</text>
+
+    <text x="150" y="580">Fa0/1</text>
+    <text x="256" y="590">Fa0/5</text>
+    <text x="330" y="580">Fa0/6</text>
+    <text x="640" y="580">Fa0/1</text>
+    <text x="756" y="590">Fa0/2</text>
+    <text x="830" y="580">Fa0/11</text>
+  </g>
+
+  <!-- Équipements réseau -->
+  <g font-size="14" font-weight="700" text-anchor="middle">
+    <rect x="425" y="22" width="150" height="56" rx="10" fill="#e9edf3" stroke="#3b4452"/>
+    <text x="500" y="46" fill="#1d2430">WEB-EXT</text>
+    <text x="500" y="66" font-size="11" font-weight="400" fill="#5b6575">Serveur web 198.51.100.10</text>
+
+    <rect x="425" y="132" width="150" height="56" rx="28" fill="#1d2430"/>
+    <text x="500" y="156" fill="#fff">R-ISP</text>
+    <text x="500" y="176" font-size="11" font-weight="400" fill="#c9d0da">2911 · FAI simulé</text>
+
+    <rect x="395" y="252" width="210" height="56" rx="28" fill="#1d2430"/>
+    <text x="500" y="276" fill="#fff">R1</text>
+    <text x="500" y="296" font-size="11" font-weight="400" fill="#c9d0da">2911 · inter-VLAN · NAT · ACL</text>
+
+    <rect x="425" y="372" width="150" height="56" rx="8" fill="#334155"/>
+    <text x="500" y="396" fill="#fff">SW-CORE</text>
+    <text x="500" y="416" font-size="11" font-weight="400" fill="#c9d0da">2960 · 192.168.99.2</text>
+
+    <rect x="725" y="372" width="200" height="56" rx="10" fill="#f3efff" stroke="#7c3aed"/>
+    <text x="825" y="396" fill="#1d2430">SRV-01</text>
+    <text x="825" y="416" font-size="11" font-weight="400" fill="#5b6575">VLAN 50 · DHCP · DNS · HTTP</text>
+
+    <rect x="175" y="502" width="150" height="56" rx="8" fill="#334155"/>
+    <text x="250" y="526" fill="#fff">SW-ETG1</text>
+    <text x="250" y="546" font-size="11" font-weight="400" fill="#c9d0da">1er étage · 192.168.99.3</text>
+
+    <rect x="675" y="502" width="150" height="56" rx="8" fill="#334155"/>
+    <text x="750" y="526" fill="#fff">SW-ETG2</text>
+    <text x="750" y="546" font-size="11" font-weight="400" fill="#c9d0da">2e étage · 192.168.99.4</text>
+  </g>
+
+  <!-- Postes -->
+  <g font-size="12" font-weight="700" text-anchor="middle">
+    <rect x="62" y="612" width="116" height="50" rx="8" fill="#eff5ff" stroke="#2563eb"/>
+    <text x="120" y="633" fill="#1d2430">PC-DIR1</text>
+    <text x="120" y="651" font-size="11" font-weight="400" fill="#2563eb">VLAN 10</text>
+
+    <rect x="192" y="612" width="116" height="50" rx="8" fill="#fff7eb" stroke="#d97706"/>
+    <text x="250" y="633" fill="#1d2430">PC-COMPTA1</text>
+    <text x="250" y="651" font-size="11" font-weight="400" fill="#b45309">VLAN 20</text>
+
+    <rect x="322" y="612" width="116" height="50" rx="8" fill="#fff7eb" stroke="#d97706"/>
+    <text x="380" y="633" fill="#1d2430">PC-COMPTA2</text>
+    <text x="380" y="651" font-size="11" font-weight="400" fill="#b45309">VLAN 20</text>
+
+    <rect x="562" y="612" width="116" height="50" rx="8" fill="#ecfdf5" stroke="#059669"/>
+    <text x="620" y="633" fill="#1d2430">PC-TECH1</text>
+    <text x="620" y="651" font-size="11" font-weight="400" fill="#047857">VLAN 30</text>
+
+    <rect x="692" y="612" width="116" height="50" rx="8" fill="#ecfdf5" stroke="#059669"/>
+    <text x="750" y="633" fill="#1d2430">PC-TECH2</text>
+    <text x="750" y="651" font-size="11" font-weight="400" fill="#047857">VLAN 30</text>
+
+    <rect x="822" y="612" width="116" height="50" rx="8" fill="#fdf2f8" stroke="#db2777"/>
+    <text x="880" y="633" fill="#1d2430">LAPTOP-INV1</text>
+    <text x="880" y="651" font-size="11" font-weight="400" fill="#be185d">VLAN 40</text>
+  </g>
+
+  <!-- Légende -->
+  <g font-size="12" fill="#3b4452">
+    <rect x="38" y="704" width="12" height="12" rx="3" fill="#2563eb"/><text x="56" y="714">10 Direction 192.168.10.0/24</text>
+    <rect x="250" y="704" width="12" height="12" rx="3" fill="#d97706"/><text x="268" y="714">20 Comptabilité 192.168.20.0/24</text>
+    <rect x="488" y="704" width="12" height="12" rx="3" fill="#059669"/><text x="506" y="714">30 Technique 192.168.30.0/24</text>
+    <rect x="712" y="704" width="12" height="12" rx="3" fill="#db2777"/><text x="730" y="714">40 Invités 192.168.40.0/24</text>
+    <rect x="38" y="730" width="12" height="12" rx="3" fill="#7c3aed"/><text x="56" y="740">50 Serveurs 192.168.50.0/24</text>
+    <rect x="250" y="730" width="12" height="12" rx="3" fill="#64748b"/><text x="268" y="740">99 Gestion 192.168.99.0/24</text>
+    <rect x="488" y="730" width="12" height="12" rx="3" fill="#cbd5e1"/><text x="506" y="740">999 Natif / ports inutilisés</text>
+  </g>
+</svg>
