@@ -1,0 +1,28 @@
+! ===============================================================
+! R-ISP - Routeur qui simule le fournisseur d'acces (Cisco 2911)
+! G0/0 : lien vers R1 (entreprise)
+! G0/1 : reseau "Internet" ou se trouve le serveur WEB-EXT
+! ===============================================================
+enable
+configure terminal
+
+hostname R-ISP
+no ip domain-lookup
+enable secret Isp@2026
+
+interface GigabitEthernet0/0
+ description Lien vers le client Alpes Conseil (R1)
+ ip address 203.0.113.1 255.255.255.252
+ no shutdown
+ exit
+
+interface GigabitEthernet0/1
+ description Reseau Internet simule
+ ip address 198.51.100.1 255.255.255.0
+ no shutdown
+ exit
+
+! Pas de route vers 192.168.x.x : grace au NAT, le FAI ne voit que 203.0.113.2
+
+end
+write memory

@@ -1,0 +1,133 @@
+! ===============================================================
+! R1 - Routeur de l'entreprise (Cisco 2911)
+! G0/0 : trunk vers SW-CORE (sous-interfaces, 1 par VLAN)
+! G0/1 : lien WAN vers le FAI (R-ISP)
+! ===============================================================
+enable
+configure terminal
+
+hostname R1
+no ip domain-lookup
+service password-encryption
+enable secret Alpes@2026
+banner motd # Acces reserve au personnel autorise d'Alpes Conseil #
+
+username admin privilege 15 secret Admin@2026
+ip domain-name alpes.local
+
+! --- Interfaces LAN : routage inter-VLAN (router-on-a-stick) ---
+interface GigabitEthernet0/0
+ description Trunk vers SW-CORE Fa0/24
+ no ip address
+ no shutdown
+ exit
+
+interface GigabitEthernet0/0.10
+ description VLAN 10 - Direction
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip helper-address 192.168.50.10
+ ip nat inside
+ exit
+
+interface GigabitEthernet0/0.20
+ description VLAN 20 - Comptabilite
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ ip helper-address 192.168.50.10
+ ip nat inside
+ exit
+
+interface GigabitEthernet0/0.30
+ description VLAN 30 - Technique
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+ ip helper-address 192.168.50.10
+ ip nat inside
+ exit
+
+interface GigabitEthernet0/0.40
+ description VLAN 40 - Invites
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+ ip helper-address 192.168.50.10
+ ip nat inside
+ exit
+
+interface GigabitEthernet0/0.50
+ description VLAN 50 - Serveurs
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+ ip nat inside
+ exit
+
+interface GigabitEthernet0/0.99
+ description VLAN 99 - Gestion des equipements
+ encapsulation dot1Q 99
+ ip address 192.168.99.1 255.255.255.0
+ exit
+
+! --- Interface WAN ---
+interface GigabitEthernet0/1
+ description Lien WAN vers R-ISP
+ ip address 203.0.113.2 255.255.255.252
+ ip nat outside
+ no shutdown
+ exit
+
+! --- Route par defaut vers le FAI ---
+ip route 0.0.0.0 0.0.0.0 203.0.113.1
+
+! --- NAT/PAT : tous les reseaux internes sortent avec l'IP publique de G0/1 ---
+access-list 1 permit 192.168.0.0 0.0.255.255
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+
+! --- ACL INVITES : les invites n'ont acces qu'a Internet ---
+! (DHCP et DNS autorises, ping de la passerelle autorise, reseaux internes interdits)
+ip access-list extended INVITES
+ permit udp any any eq 67
+ permit udp 192.168.40.0 0.0.0.255 host 192.168.50.10 eq 53
+ permit icmp 192.168.40.0 0.0.0.255 host 192.168.40.1
+ deny ip 192.168.40.0 0.0.0.255 192.168.0.0 0.0.255.255
+ permit ip 192.168.40.0 0.0.0.255 any
+ exit
+
+interface GigabitEthernet0/0.40
+ ip access-group INVITES in
+ exit
+
+! --- ACL COMPTA : seuls la Direction et les serveurs peuvent joindre la comptabilite ---
+! (les reponses aux connexions ouvertes depuis la compta restent autorisees)
+ip access-list extended COMPTA
+ permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+ permit ip 192.168.50.0 0.0.0.255 192.168.20.0 0.0.0.255
+ permit icmp any 192.168.20.0 0.0.0.255 echo-reply
+ permit tcp any 192.168.20.0 0.0.0.255 established
+ deny ip any 192.168.20.0 0.0.0.255
+ exit
+
+interface GigabitEthernet0/0.20
+ ip access-group COMPTA out
+ exit
+
+! --- Acces SSH reserve au VLAN Technique ---
+access-list 10 permit 192.168.30.0 0.0.0.255
+
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+
+line console 0
+ login local
+ exec-timeout 10 0
+ logging synchronous
+ exit
+
+line vty 0 4
+ login local
+ transport input ssh
+ access-class 10 in
+ exec-timeout 10 0
+ exit
+
+end
+write memory
